@@ -1,14 +1,14 @@
 
 import streamlit as st
 import pandas as pd
-import pickle
+import joblib # Changed from pickle
 import numpy as np
 
 # Load the full pipeline
 @st.cache_resource
 def load_pipeline():
-    with open('model.pkl', 'rb') as file:
-        pipeline = pickle.load(file)
+    with open('model.joblib', 'rb') as file: # Changed filename to model.joblib
+        pipeline = joblib.load(file) # Changed to joblib.load
     return pipeline
 
 pipeline = load_pipeline()
@@ -20,18 +20,14 @@ st.write('Predict the outcome based on antibiotic and animal farming parameters.
 def get_categorical_options_from_pipeline(pipeline):
     preprocessor = pipeline.named_steps['preprocessor']
     onehot_encoder = preprocessor.named_transformers_['cat']
-    categorical_features_names = [name for name, _, _ in preprocessor.transformers if name == 'cat'][0] # Get the name of the categorical transformer, 'cat'
-    
-    # Get the original column names that the 'cat' transformer was applied to
-    # The input to ColumnTransformer is (name, transformer, columns)
-    # We need to find the actual list of column names used by the 'cat' transformer
+
     original_categorical_cols = None
     for name, transformer, cols in preprocessor.transformers:
         if name == 'cat':
             original_categorical_cols = cols
             break
 
-    if not original_categorical_cols: # Should not happen if 'cat' is defined
+    if not original_categorical_cols:
         raise ValueError("Could not find categorical columns in the pipeline's preprocessor.")
 
     cat_options = {}
