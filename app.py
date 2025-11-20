@@ -49,7 +49,7 @@ with st.form('prediction_form'):
     location = st.selectbox('Location', options=cat_options['Location'])
     antibiotic_type = st.selectbox('Antibiotic-type', options=cat_options['Antibiotic-type'])
     feed_type = st.selectbox('Feed-type', options=cat_options['Feed-type'])
-    anticoccidial = st.selectbox('Anticoccidial', options=cat_options['Anticoccocidial'])
+    anticoccidial = st.selectbox('Anticoccidial', options=cat_options['Anticoccidial']) # Corrected typo here
     housing = st.selectbox('Housing', options=cat_options['Housing'])
 
     submitted = st.form_submit_button('Predict Outcome')
@@ -63,7 +63,7 @@ if submitted:
         'Location': [location],
         'Antibiotic-type': [antibiotic_type],
         'Feed-type': [feed_type],
-        'Anticoccocidial': [anticoccidial],
+        'Anticoccidial': [anticoccidial], # Corrected typo here
         'Housing': [housing]
     })
 
